@@ -403,16 +403,16 @@ async def on_member_update(before, after):
 async def on_message(message):
     """Zähl-Bot Funktion"""
     global last_number, last_user
-
+    
     if message.author.bot:
         return
-
+    
     # Zähl-Bot (nur im Zähl-Kanal)
     if message.channel.id == COUNT_CHANNEL_ID:
         try:
             current_number = int(message.content.strip())
             expected_number = last_number + 1
-
+            
             # Falsche Zahl
             if current_number != expected_number:
                 await message.add_reaction("❌")
@@ -422,7 +422,7 @@ async def on_message(message):
                 last_number = 0
                 last_user = None
                 return
-
+            
             # Doppelpost
             if message.author == last_user:
                 await message.add_reaction("❌")
@@ -432,41 +432,24 @@ async def on_message(message):
                 last_number = 0
                 last_user = None
                 return
-
+            
             # Richtige Zahl
             await message.add_reaction("✅")
             
-            # Bot Sabotage
-            if random.random() < bot_sabotage_chance and current_number > 8:
-                await asyncio.sleep(random.uniform(3, 8))
-                
-                wrong_options = [
-                    current_number + 2, current_number + 3, current_number - 1,
-                    current_number + 5, current_number + 10, 42, 69, 420,
-                    random.randint(1, 1000), current_number * 2
-                ]
-                wrong_number = random.choice(wrong_options)
-                
-                sabotage_msg = random.choice(bot_sabotage_messages).format(
-                    wrong=wrong_number, correct=current_number + 1
-                )
-                
-                bot_message = await message.channel.send(str(wrong_number))
-                await bot_message.add_reaction("😈")
-                await message.channel.send(sabotage_msg)
-                
-                last_number = 0
-                last_user = None
-                return
-
+            # Update Variablen ZUERST
+            last_number = current_number
+            last_user = message.author
+            
             # Meilensteine
             if current_number % 10 == 0:
                 msg = random.choice(milestone_messages).format(number=current_number)
                 await message.channel.send(msg)
-
-            last_number = current_number
-            last_user = message.author
-
+            
+            # Bot Sabotage (NACH dem Update der Variablen)
+            if random.random() < bot_sabotage_chance and current_number > 8:
+                # Erstelle Task für verzögerte Sabotage
+                asyncio.create_task(delayed_sabotage(message.channel, current_number))
+                
         except ValueError:
             await message.add_reaction("❌")
             msg = random.choice(non_number_responses).format(user=message.author.mention)
@@ -480,6 +463,30 @@ async def on_message(message):
         await message.channel.send("✅ Test-Nachricht wurde gesendet!")
 
     await bot.process_commands(message)
+
+async def delayed_sabotage(channel, last_correct_number):
+    """Verzögerte Sabotage-Funktion"""
+    global last_number, last_user
+    
+    await asyncio.sleep(random.uniform(3, 8))
+    
+    wrong_options = [
+        last_correct_number + 2, last_correct_number + 3, last_correct_number - 1,
+        last_correct_number + 5, last_correct_number + 10, 42, 69, 420,
+        random.randint(1, 1000), last_correct_number * 2
+    ]
+    wrong_number = random.choice(wrong_options)
+    
+    sabotage_msg = random.choice(bot_sabotage_messages).format(
+        wrong=wrong_number, correct=last_correct_number + 1
+    )
+    
+    bot_message = await channel.send(str(wrong_number))
+    await bot_message.add_reaction("😈")
+    await channel.send(sabotage_msg)
+    
+    last_number = 0
+    last_user = None
 
 # ==================== TASKS ====================
 @tasks.loop(minutes=2)
