@@ -46,7 +46,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 # ==================== GLOBAL CONFIGURATION ====================
 # Channel IDs (ANPASSEN!)
-COUNT_CHANNEL_ID = 1394304779047538699      # Zähl-Kanal
+COUNT_CHANNEL_ID = 1386659088984834078      # Zähl-Kanal
 WELCOME_CHANNEL_ID = 1199437871350812733    # Begrüßungs-Kanal
 STREAM_CHANNEL_ID = 1199441887392706680     # Stream-Ankündigungen
 DAILY_CHANNEL_ID = 1158472190052806721      # Tägliche Nachrichten
@@ -63,7 +63,7 @@ TWITCH_CLIENT_SECRET = os.getenv('TWITCH_CLIENT_SECRET')
 # Zähl-Bot Variablen
 last_number = 0
 last_user = None
-bot_sabotage_chance = 0.50  # 3% Chance
+bot_sabotage_chance = 0.03  # 3% Chance
 
 # Zähl-Bot Nachrichten
 wrong_number_responses = [
@@ -137,21 +137,21 @@ milestone_messages = [
 ]
 
 bot_sabotage_messages = [
-    "HAHA! Ich hab euch reingelegt! 🤖😈 Die richtige Zahl wäre **{correct}** gewesen, aber ich hab **{wrong}** gesagt! Zurück auf 1, ihr Opfer!",
-    "TROLLED! 🎭🤖 **{wrong}** war natürlich falsch! **{correct}** wäre richtig gewesen! Ich bin ein chaotischer Bot! Zurück zu 1!",
-    "GOTCHA! 😂🤖 Dachtet ihr wirklich **{wrong}** ist richtig? Es sollte **{correct}** sein! Ich bin der Sabotage-Bot! Reset!",
-    "BAMBOOZLED! 🎪🤖 **{wrong}** war ein Test! **{correct}** wäre korrekt! Ich liebe es, euch zu verwirren! Ab zu 1!",
-    "SURPRISE! 🎉💥 **{wrong}** war pure Sabotage! **{correct}** ist die Wahrheit! Ich bin euer Chaos-Agent! Neustart!",
-    "PRANKED! 🃏🤖 **{wrong}** war mein böser Plan! **{correct}** wäre ehrlich gewesen! Ich bin der Troll-Bot! Zurück zu Start!",
-    "RICKROLLED! 🎵🤖 **{wrong}** war Fake News! **{correct}** ist real! Never gonna give you up... the counting! Reset!",
-    "JEBAITED! 🎣🤖 **{wrong}** war der Köder! **{correct}** wäre echt! Ihr seid in meine Falle getappt! Ab auf Los!",
-    "BACKSTABBED! ⚔️🤖 **{wrong}** war Verrat! **{correct}** wäre loyal! Ich bin euer freundlicher Feind! Zurück zu 1!",
-    "PLOT TWIST! 🌪️🤖 **{wrong}** war das Chaos! **{correct}** wäre Ordnung! Ich bin Agent der Verwirrung! Reset!",
-    "SABOTAGE COMPLETE! 💣🤖 **{wrong}** war meine Mission! **{correct}** wäre langweilig! Ich bringe Leben in die Bude! Neustart!",
-    "SYSTEM HACK! 💻🤖 **{wrong}** war ein Virus! **{correct}** wäre sauber! Ich hab eure Matrix gehackt! Zurück zu Start!",
-    "ANARCHY! 🏴🤖 **{wrong}** war Revolution! **{correct}** wäre Diktatur! Nieder mit der Zähl-Ordnung! Reset!",
-    "ULTIMATE TROLL! 👹🤖 **{wrong}** war pure Bosheit! **{correct}** wäre nett! Ich bin euer digitaler Albtraum! Ab zu 1!",
-    "CHAOS UNLEASHED! 🌋🤖 **{wrong}** war Zerstörung! **{correct}** wäre Frieden! Ich bin der Bringer des Untergangs! Neustart!"
+    "Ups! 🤖💥 Ich hab mich verzählt! Es sollte **{correct}** sein, nicht **{wrong}**! Meine KI hat wohl einen Fehler gemacht... Zurück zu 1!",
+    "Oops! 🤖😅 **{wrong}** war falsch von mir! **{correct}** wäre richtig gewesen! Selbst Bots machen Fehler... Reset!",
+    "Autsch! 🤖🔧 Mein Zähl-Algorithmus ist abgestürzt! **{correct}** hätte kommen sollen, nicht **{wrong}**! Zurück auf Start!",
+    "Fehler im System! 🤖⚠️ **{wrong}** war ein Bug! Die richtige Zahl wäre **{correct}** gewesen! Neustart erforderlich!",
+    "KI-Panne! 🤖💻 Ich dachte **{wrong}**, aber **{correct}** ist korrekt! Auch Künstliche Intelligenz hat schlechte Tage... Zurück zu 1!",
+    "Bot-Fehler detected! 🤖🚨 **{wrong}** war Quatsch! **{correct}** ist die Wahrheit! Meine Schaltkreise spinnen heute... Reset!",
+    "Systemausfall! 🤖⚡ **{wrong}** war ein Glitch! **{correct}** sollte es sein! Zeit für ein Update... Zurück auf Los!",
+    "Rechenfehler! 🤖🧮 **{wrong}** war daneben! **{correct}** wäre richtig! Mein Prozessor überhitzt wohl... Neustart!",
+    "Software-Bug! 🤖🐛 **{wrong}** war ein Versehen! **{correct}** ist mathematisch korrekt! Zurück zu 1, sorry!",
+    "KI-Blackout! 🤖🌑 **{wrong}** war völlig falsch! **{correct}** hätte sein sollen! Meine Neuronen haben kurz ausgesetzt... Reset!",
+    "Berechnungsfehler! 🤖📊 **{wrong}** war ein Irrtum! **{correct}** ist die Lösung! Selbst Google macht Fehler... Zurück auf Start!",
+    "Prozessor-Hickup! 🤖⚙️ **{wrong}** war Schrott! **{correct}** wäre genial gewesen! Meine CPU braucht Kaffee... Neustart!",
+    "Digital-Panne! 🤖💾 **{wrong}** war ein Crash! **{correct}** ist mathematisch! Auch Bots sind nicht perfekt... Zurück zu 1!",
+    "Algorithmus-Aussetzer! 🤖🎯 **{wrong}** war Müll! **{correct}** wäre brilliant! Meine Matrix hat gelaggt... Reset!",
+    "Bot-Brainfart! 🤖🧠 **{wrong}** war Unsinn! **{correct}** ist logisch! Digitale Demenz ist real... Zurück auf Los!"
 ]
 
 # ==================== BOT 2: BEGRÜSSUNGS-BOT ====================
@@ -403,16 +403,16 @@ async def on_member_update(before, after):
 async def on_message(message):
     """Zähl-Bot Funktion"""
     global last_number, last_user
-    
+
     if message.author.bot:
         return
-    
+
     # Zähl-Bot (nur im Zähl-Kanal)
     if message.channel.id == COUNT_CHANNEL_ID:
         try:
             current_number = int(message.content.strip())
             expected_number = last_number + 1
-            
+
             # Falsche Zahl
             if current_number != expected_number:
                 await message.add_reaction("❌")
@@ -422,7 +422,7 @@ async def on_message(message):
                 last_number = 0
                 last_user = None
                 return
-            
+
             # Doppelpost
             if message.author == last_user:
                 await message.add_reaction("❌")
@@ -432,14 +432,14 @@ async def on_message(message):
                 last_number = 0
                 last_user = None
                 return
-            
+
             # Richtige Zahl
             await message.add_reaction("✅")
             
             # Update Variablen ZUERST
             last_number = current_number
             last_user = message.author
-            
+
             # Meilensteine
             if current_number % 10 == 0:
                 msg = random.choice(milestone_messages).format(number=current_number)
@@ -449,7 +449,33 @@ async def on_message(message):
             if random.random() < bot_sabotage_chance and current_number > 8:
                 # Erstelle Task für verzögerte Sabotage
                 asyncio.create_task(delayed_sabotage(message.channel, current_number))
-                
+
+async def delayed_sabotage(channel, last_correct_number):
+    """Verzögerte Sabotage-Funktion"""
+    global last_number, last_user
+    
+    await asyncio.sleep(random.uniform(3, 8))  # 3-8 Sekunden warten
+    
+    wrong_options = [
+        last_correct_number + 2, last_correct_number + 3, last_correct_number - 1,
+        last_correct_number + 5, last_correct_number + 10, 42, 69, 420,
+        random.randint(1, 1000), last_correct_number * 2
+    ]
+    wrong_number = random.choice(wrong_options)
+    
+    sabotage_msg = random.choice(bot_sabotage_messages).format(
+        wrong=wrong_number, correct=last_correct_number + 1
+    )
+    
+    # Bot postet falsche Zahl
+    bot_message = await channel.send(str(wrong_number))
+    await bot_message.add_reaction("😈")
+    await channel.send(sabotage_msg)
+    
+    # Spiel zurücksetzen
+    last_number = 0
+    last_user = None
+
         except ValueError:
             await message.add_reaction("❌")
             msg = random.choice(non_number_responses).format(user=message.author.mention)
@@ -463,30 +489,6 @@ async def on_message(message):
         await message.channel.send("✅ Test-Nachricht wurde gesendet!")
 
     await bot.process_commands(message)
-
-async def delayed_sabotage(channel, last_correct_number):
-    """Verzögerte Sabotage-Funktion"""
-    global last_number, last_user
-    
-    await asyncio.sleep(random.uniform(3, 8))
-    
-    wrong_options = [
-        last_correct_number + 2, last_correct_number + 3, last_correct_number - 1,
-        last_correct_number + 5, last_correct_number + 10, 42, 69, 420,
-        random.randint(1, 1000), last_correct_number * 2
-    ]
-    wrong_number = random.choice(wrong_options)
-    
-    sabotage_msg = random.choice(bot_sabotage_messages).format(
-        wrong=wrong_number, correct=last_correct_number + 1
-    )
-    
-    bot_message = await channel.send(str(wrong_number))
-    await bot_message.add_reaction("😈")
-    await channel.send(sabotage_msg)
-    
-    last_number = 0
-    last_user = None
 
 # ==================== TASKS ====================
 @tasks.loop(minutes=2)
