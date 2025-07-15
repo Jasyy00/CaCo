@@ -154,6 +154,19 @@ bot_sabotage_messages = [
     "Bot-Brainfart! 🤖🧠 **{wrong}** war Unsinn! **{correct}** ist logisch! Digitale Demenz ist real... Zurück auf Los!"
 ]
 
+non_number_responses = [
+    "{user}, das hier ist kein Chat – das ist ein Zahlenspiel. Zurück auf 1!",
+    "{user}, wenn du was sagen willst, geh in den Smalltalk. Hier zählen wir!",
+    "{user}, du hattest EINE Aufgabe: eine Zahl. Kein Roman, keine Emojis.",
+    "{user}, Wörter sind toll – aber hier nicht. Zurück zu 1!",
+    "{user}, Mathe ist nicht sprechen. Zahl, bitte!",
+    "{user}, das war keine Zahl, das war ein Verbrechen gegen den Zähl-Code.",
+    "{user}, du bist auf der falschen Baustelle. Hier wird gezählt, nicht geschwätzt.",
+    "{user}, willst du uns verwirren? Herzlichen Glückwunsch. Reset!",
+    "{user}, für Buchstaben gibts die Buchstabensuppe. Hier nur Zahlen!",
+    "{user}, du hast das Spiel kaputt gemacht. Alle zurück zu 1 – Bravo."
+]
+
 # ==================== BOT 2: BEGRÜSSUNGS-BOT ====================
 begruessung_sprueche = [
     "{user} Willkommen im Chaos! 🎉 Hoffe du hast deine Nerven mitgebracht!",
@@ -315,7 +328,6 @@ DAILY_MESSAGES = [
     "🌅 Morgen Sonnenaufgangs-Zeugen! Ihr startet perfekt in den Tag!",
     "💝 Hey Geschenke! Ihr seid das beste Geschenk für diese Welt!",
     "🎯 Guten Morgen Ziel-Erreicher! Heute trefft ihr ins Schwarze!",
-    "🌊 Morgen Wellen-Reiter! Surft heute auf der Erfolgswelle!"
 ]
 
 # ==================== TWITCH API FUNCTIONS ====================
@@ -449,33 +461,7 @@ async def on_message(message):
             if random.random() < bot_sabotage_chance and current_number > 8:
                 # Erstelle Task für verzögerte Sabotage
                 asyncio.create_task(delayed_sabotage(message.channel, current_number))
-
-async def delayed_sabotage(channel, last_correct_number):
-    """Verzögerte Sabotage-Funktion"""
-    global last_number, last_user
-    
-    await asyncio.sleep(random.uniform(3, 8))  # 3-8 Sekunden warten
-    
-    wrong_options = [
-        last_correct_number + 2, last_correct_number + 3, last_correct_number - 1,
-        last_correct_number + 5, last_correct_number + 10, 42, 69, 420,
-        random.randint(1, 1000), last_correct_number * 2
-    ]
-    wrong_number = random.choice(wrong_options)
-    
-    sabotage_msg = random.choice(bot_sabotage_messages).format(
-        wrong=wrong_number, correct=last_correct_number + 1
-    )
-    
-    # Bot postet falsche Zahl
-    bot_message = await channel.send(str(wrong_number))
-    await bot_message.add_reaction("😈")
-    await channel.send(sabotage_msg)
-    
-    # Spiel zurücksetzen
-    last_number = 0
-    last_user = None
-
+                
         except ValueError:
             await message.add_reaction("❌")
             msg = random.choice(non_number_responses).format(user=message.author.mention)
@@ -489,6 +475,31 @@ async def delayed_sabotage(channel, last_correct_number):
         await message.channel.send("✅ Test-Nachricht wurde gesendet!")
 
     await bot.process_commands(message)
+
+# Sabotage-Funktion AUSSERHALB von on_message
+async def delayed_sabotage(channel, last_correct_number):
+    """Verzögerte Sabotage-Funktion"""
+    global last_number, last_user
+    
+    await asyncio.sleep(random.uniform(3, 8))
+    
+    wrong_options = [
+        last_correct_number + 2, last_correct_number + 3, last_correct_number - 1,
+        last_correct_number + 5, last_correct_number + 10, 42, 69, 420,
+        random.randint(1, 1000), last_correct_number * 2
+    ]
+    wrong_number = random.choice(wrong_options)
+    
+    sabotage_msg = random.choice(bot_sabotage_messages).format(
+        wrong=wrong_number, correct=last_correct_number + 1
+    )
+    
+    bot_message = await channel.send(str(wrong_number))
+    await bot_message.add_reaction("🤖")
+    await channel.send(sabotage_msg)
+    
+    last_number = 0
+    last_user = None
 
 # ==================== TASKS ====================
 @tasks.loop(minutes=2)
