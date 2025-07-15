@@ -63,7 +63,7 @@ TWITCH_CLIENT_SECRET = os.getenv('TWITCH_CLIENT_SECRET')
 # Zähl-Bot Variablen
 last_number = 0
 last_user = None
-bot_sabotage_chance = 1.00  # 3% Chance
+bot_sabotage_chance = 0.03  # 3% Chance
 
 # Zähl-Bot Nachrichten
 wrong_number_responses = [
