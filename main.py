@@ -46,7 +46,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 # ==================== GLOBAL CONFIGURATION ====================
 # Channel IDs (ANPASSEN!)
-COUNT_CHANNEL_ID = 1386659088984834078      # Zähl-Kanal
+COUNT_CHANNEL_ID = 1394304779047538699      # Zähl-Kanal
 WELCOME_CHANNEL_ID = 1199437871350812733    # Begrüßungs-Kanal
 STREAM_CHANNEL_ID = 1199441887392706680     # Stream-Ankündigungen
 DAILY_CHANNEL_ID = 1158472190052806721      # Tägliche Nachrichten
