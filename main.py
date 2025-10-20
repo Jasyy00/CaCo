@@ -208,10 +208,10 @@ STREAMERS = {
         'url': 'https://www.twitch.tv/heidelberr_muffin',
         'username': 'heidelberr_muffin'
     },
-    'block_b_boy': {
+    'danox': {
         'platform': 'twitch',
-        'url': 'https://www.twitch.tv/block_b_boy',
-        'username': 'block_b_boy'
+        'url': 'https://www.twitch.tv/danox_ttv',
+        'username': 'danox'
     },
     'jasyygirl': {
         'platform': 'twitch',
