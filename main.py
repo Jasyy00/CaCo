@@ -429,22 +429,12 @@ async def on_message(message):
             await message.channel.send(msg)
             last_number = 0
             last_user = None
-            return  # ← WICHTIG: Hier stoppen!
-
-        # Ab hier wissen wir: es IST eine Zahl
-        expected_number = last_number + 1
-
-        # Falsche Zahl
-        if current_number != expected_number:
-            await message.add_reaction("❌")
-            msg = random.choice(wrong_number_responses).format(
-                user=message.author.mention, expected=expected_number)
-            await message.channel.send(msg)
-            last_number = 0
-            last_user = None
             return
 
-        # Doppelpost
+        # Erwartete Zahl berechnen
+        expected_number = last_number + 1
+
+        # Doppelpost prüfen (VOR der Zahlenprüfung!)
         if message.author == last_user:
             await message.add_reaction("❌")
             msg = random.choice(double_post_responses).format(
@@ -454,22 +444,35 @@ async def on_message(message):
             last_user = None
             return
 
-        # Richtige Zahl
+        # Falsche Zahl prüfen
+        if current_number != expected_number:
+            await message.add_reaction("❌")
+            msg = random.choice(wrong_number_responses).format(
+                user=message.author.mention, expected=expected_number)
+            await message.channel.send(msg)
+            last_number = 0
+            last_user = None
+            return
+
+        # RICHTIGE ZAHL - Ab hier alles korrekt!
         await message.add_reaction("✅")
         
+        # WICHTIG: Variablen SOFORT aktualisieren
         last_number = current_number
         last_user = message.author
 
-        # Meilensteine
+        # Meilensteine (nur bei korrekter Zahl)
         if current_number % 10 == 0:
             msg = random.choice(milestone_messages).format(number=current_number)
             await message.channel.send(msg)
         
-        # Bot Sabotage
+        # Bot Sabotage (nur wenn aktiviert)
         if random.random() < bot_sabotage_chance and current_number > 8:
             asyncio.create_task(delayed_sabotage(message.channel, current_number))
+        
+        return  # ← WICHTIG: Hier sauber beenden
 
-    # Test Commands
+    # Test Commands (außerhalb des Count-Kanals)
     if message.content.lower() in ['!test', '!caco', '!testmessage']:
         await send_daily_message()
         await message.channel.send("✅ Test-Nachricht wurde gesendet!")
